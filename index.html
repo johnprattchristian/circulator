@@ -191,8 +191,9 @@ var processFile = function(fileInput){
 </script>
 </head>
 <body>
-<input type="color" value="#ffffff" onchange="backgroundColor = this.value"></input>
 <input type="file" onchange="processFile(this)" accept="image/jpeg"></input></br>
+<span>choose a background color to go behind the circles:</span><input type="color" value="#ffffff" onchange="backgroundColor = this.value"></input>
+</br>
 <canvas id="canvas" width="800px" height="600px"></canvas></br>
 <span>enter input divisible by 2:</span><input type="text" id="txtRes" value="32"></input><button onclick="makeSpheres(parseInt(document.getElementById('txtRes').value))">Make Spheres</button>
 <button onclick="resetImage()">Reset</button>
