@@ -6,6 +6,25 @@
 var img = new Image();
 var backgroundColor = "white";
 
+
+var rgbStringToHex = function(string){
+	var a = string.split("(")[1].split(")")[0];
+	a = a.split(",");
+	var b = a.map(function(x){             //For each array element
+		x = parseInt(x).toString(16);      //Convert to a base16 string
+		return (x.length==1) ? "0"+x : x;  //Add zero if we get only one character
+	});
+	b = "0x"+b.join("");
+	
+	return b;
+};
+
+var changeBGColor = function(color){
+	backgroundColor = color;
+	$('#spanColorText').html(color);
+	//$('input[type=color]').val(rgbStringToHex(color));
+};
+
 var resetImage = function(){
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
@@ -192,9 +211,10 @@ var processFile = function(fileInput){
 </head>
 <body>
 <input type="file" onchange="processFile(this)" accept="image/jpeg"></input></br>
-<span>choose a background color to go behind the circles:</span><input type="color" value="#ffffff" onchange="backgroundColor = this.value"></input>
-</br>
 <canvas id="canvas" width="800px" height="600px"></canvas></br>
+<span>Choose background color: (behind circles) </span><input type="color" value="#ffffff" onchange="changeBGColor(this.value)"></input><button onclick="changeBGColor($('input[type=color]').val())">Use color picker</button>
+<button id="btnUseAverage" onclick="changeBGColor(document.getElementById('columns').style.backgroundColor)">Use image average</button>
+<span id="spanColorText"></span></br>
 <span>enter input divisible by 2:</span><input type="text" id="txtRes" value="32"></input><button onclick="makeSpheres(parseInt(document.getElementById('txtRes').value))">Make Spheres</button>
 <button onclick="resetImage()">Reset</button>
 </br><span>Average color overall for base image:</span>
