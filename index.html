@@ -38,6 +38,7 @@ var resetImage = function(){
 var makeSpheres = function(resolution){
 	// reset image before getting the data
 	resetImage();
+	$('#txtStatus').html('Working...');
 
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
@@ -92,6 +93,8 @@ var makeSpheres = function(resolution){
 					
 				}
 			}
+			
+			$('#txtStatus').html('Done!');
 		}
 		else{
 			alert('resolution not divisible by 2');
@@ -220,13 +223,19 @@ var processFile = function(fileInput){
 <h1>Circular</h2>
 <span>Choose an image below.</span></br></br>
 <input type="file" onchange="processFile(this)" accept="image/jpeg"></input></br>
-<canvas id="canvas" width="800px" height="600px"></canvas></br>
 <span>Choose background color: (behind circles) </span>
 <input type="color" value="#000000" onchange="changeBGColor(this.value)"></input><button onclick="changeBGColor($('input[type=color]').val())">Use color picker</button>
 <button id="btnUseAverage" onclick="changeBGColor(document.getElementById('columns').style.backgroundColor)">Use image average</button>
 <span id="spanColorText"></span></br>
-<span>Resolution: (must be divisible by 2) </span><input type="text" id="txtRes" value="32"></input><button onclick="makeSpheres(parseInt(document.getElementById('txtRes').value))">Make Circles</button>
+<span>Resolution: (must be divisible by 2) </span></br>
+<input type="range" style="width:500px!important" max="25000" min="24" step="2"  value="32" id="rngSlider" oninput="document.getElementById('txtRes').value = this.value"></input>
+<input type="text" id="txtRes" value="32" oninput="document.getElementById('rngSlider').value = parseInt(this.value)"></input>
+<button onclick="$('#txtStatus').html('Working...');setTimeout(function(){makeSpheres(parseInt(document.getElementById('txtRes').value));},50);">Make Circles</button>
+<span style="background-color:silver" id="txtStatus">Waiting.</span>
 <button onclick="resetImage()">Reset</button>
+
+<canvas id="canvas" width="800px" height="600px"></canvas></br>
+
 </br><span>Average color overall for base image:</span>
 <div id="columns"></div>
 <div>
