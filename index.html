@@ -4,6 +4,7 @@
 <script>
 
 var img = new Image();
+var backgroundColor = "white";
 
 var resetImage = function(){
 	var canvas = document.getElementById('canvas');
@@ -15,16 +16,23 @@ var resetImage = function(){
 }
 
 var makeSpheres = function(resolution){
+	// reset image before getting the data
+	resetImage();
+
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 	var imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
 	var data = imageData.data;
 	
-	resetImage();
+	// paint the background color 
+	ctx.fillStyle = backgroundColor;
+	ctx.fillRect(0,0,canvas.width,canvas.height);
 	
 	if(resolution % 2 == 0){
 		// set the diameter of the circles to how much space that number of circles will take up
-		var circleDiameter = Math.round(Math.sqrt(((canvas.width * canvas.height) / resolution)));
+		var circleDiameter = Math.floor(Math.sqrt(((canvas.width * canvas.height) / resolution)));
+		
+		
 		
 		var averageColor;
 		var colorSum = {
@@ -53,7 +61,6 @@ var makeSpheres = function(resolution){
 				averageColor.b = Math.round(colorSum.b / (circleDiameter * circleDiameter));
 				console.log('the average R value for the circle starting at '+x+','+y+' is '+averageColor.r);
 				
-				ctx.clearRect(x,y,circleDiameter,circleDiameter);
 				ctx.beginPath();
 				ctx.arc(x+circleDiameter / 2,y+circleDiameter / 2,circleDiameter / 2,0,2 * Math.PI,false);
 				ctx.fillStyle = 'rgb('+averageColor.r+','+averageColor.g+','+averageColor.b+')';
@@ -65,7 +72,7 @@ var makeSpheres = function(resolution){
 		}
 	}
 	else{
-		console.log('resolution not divisible by 2');
+		alert('resolution not divisible by 2');
 	}
 };
 
@@ -184,6 +191,7 @@ var processFile = function(fileInput){
 </script>
 </head>
 <body>
+<input type="color" value="#ffffff" onchange="backgroundColor = this.value"></input>
 <input type="file" onchange="processFile(this)" accept="image/jpeg"></input></br>
 <canvas id="canvas" width="800px" height="600px"></canvas></br>
 <span>enter input divisible by 2:</span><input type="text" id="txtRes" value="32"></input><button onclick="makeSpheres(parseInt(document.getElementById('txtRes').value))">Make Spheres</button>
