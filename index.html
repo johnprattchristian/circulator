@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Circulator</title>
+<title>Circular</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
 
@@ -228,7 +228,7 @@ var processFile = function(fileInput){
 <button id="btnUseAverage" onclick="changeBGColor(document.getElementById('columns').style.backgroundColor)">Use image average</button>
 <span id="spanColorText"></span></br>
 <span>Resolution: (must be divisible by 2) </span></br>
-<input type="range" style="width:500px!important" max="25000" min="24" step="2"  value="32" id="rngSlider" oninput="document.getElementById('txtRes').value = this.value"></input>
+<input type="range" style="width:500px!important" max="25000" min="24" step="2"  value="32" id="rngSlider" oninput="document.getElementById('txtRes').value = this.value" onchange="$('#txtStatus').html('Working...');setTimeout(function(){makeSpheres(parseInt(document.getElementById('txtRes').value));},50);"></input>
 <input type="text" id="txtRes" value="32" oninput="document.getElementById('rngSlider').value = parseInt(this.value)"></input>
 <button onclick="$('#txtStatus').html('Working...');setTimeout(function(){makeSpheres(parseInt(document.getElementById('txtRes').value));},50);">Make Circles</button>
 <span style="background-color:silver" id="txtStatus">Waiting.</span>
